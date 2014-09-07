@@ -1,0 +1,36 @@
+src/*.exe
+src/craigscoin
+src/craigscoind
+src/test_craigscoin
+.*.swp
+*.*~*
+*.bak
+*.rej
+*.orig
+*.o
+*.patch
+*.P
+.craigscoin
+*.directory
+
+# Compilation and Qt preprocessor part
+*.qm
+Makefile
+craigscoin-qt
+CraigsCoin-Qt.app
+
+# Unit-tests
+Makefile.test
+craigscoin-qt_test
+
+# Resources cpp
+qrc_*.cpp
+
+# Qt creator
+*.pro.user
+
+# Mac specific
+.DS_Store
+build
+
+!src/leveldb-*/Makefile
