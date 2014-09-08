@@ -1,11 +1,16 @@
 Name: CraigsCoin (CRAIG)
+
 100% POS
+
 Presale coins: 30'000'000 CRAIG
+
 POS annual interest: 2%
+
 
 The main idea of CraigsCoin is to provide the world with trustless, decentralized classified ads listing. Since everything is stored in the blockchain no entity will be able to delete or somehow edit an ad once its posted.
 
 CraigsCoin utilizes a modified blockchain in order to allow any user to post their ADS directly into the blockchain. Normal transactions between users will be no different from any other coin out there. There will be number of "special" wallets that will accept special type of transaction, called ADTX (AdvertisingTransaction). In first prototype version of CraigsCoin ADTX's will have fixed cost (i.e. you can only sent 1 CRAIG to ADTX wallet). This cost is called Listing Fee. In the current build of CraigsCoin listing fee have a fixed value, however in future release ADTX fee will be recalculated depending on mining difficulty in order to indirectly reflect CRAIG market value. Every message to the ADTX wallet will look like genuine transaction with one exception - this transaction may contain user created message (Ad). This may be any message from 1 to 10 000 bytes. This message will be readable by anyone using block explorer. It is as simple as that.
+
 
 Wallet changes:
 
