@@ -258,10 +258,13 @@
        <property name="text">
         <string/>
        </property>
+       <property name="pixmap">
+        <pixmap resource="../bitcoin.qrc">:/images/about</pixmap>
+       </property>
       </widget>
      </item>
     </layout>
-</item>
+   </item>
    <item>
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
@@ -352,6 +355,8 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="../bitcoin.qrc"/>
+ </resources>
  <connections/>
 </ui>
