@@ -498,7 +498,8 @@ bool CTransaction::CheckTransaction() const
         {
           CTxDestination addr;
           if (ExtractDestination(txout.scriptPubKey, addr)
-                    && CBitcoinAddress(addr).ToString() == AD_FEE_ADDRESS
+                    && CBitcoinAddress(addr).ToString() == 
+                      (fTestNet ? AD_FEE_ADDRESS_TESTNET : AD_FEE_ADDRESS)
                     && txout.nValue >= AD_FEE_AMOUNT
                 )
           {

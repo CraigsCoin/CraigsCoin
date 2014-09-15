@@ -78,7 +78,10 @@ void AdsPage::on_actionPostAd_triggered()
 
   SendCoinsRecipient rv;
 
-  rv.address = AD_FEE_ADDRESS;
+  if (fTestNet)
+    rv.address = AD_FEE_ADDRESS_TESTNET;
+  else
+    rv.address = AD_FEE_ADDRESS;
   rv.label = "Ad fee";
   rv.amount = AD_FEE_AMOUNT;
 

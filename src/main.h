@@ -41,6 +41,7 @@ static const int64_t MAX_MINT_PROOF_OF_STAKE = 0.02 * COIN;	// 2% annual interes
 static const int MODIFIER_INTERVAL_SWITCH = 0; // start POS after ~5 days
 static const int64_t AD_FEE_AMOUNT = 5 * COIN;
 static const char AD_FEE_ADDRESS[] = "CHjJ6sJ7PpnPhc4XYHmgNY2YHLZeR4QueT";
+static const char AD_FEE_ADDRESS_TESTNET[] = "mmrBgTm1ycomXHdSooj3gf6zkf1FGDGhqY";
 
 inline bool MoneyRange(int64_t nValue) { return (nValue >= 0 && nValue <= MAX_MONEY); }
 // Threshold for nLockTime: below this value it is interpreted as block number, otherwise as UNIX timestamp.
