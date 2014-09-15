@@ -1142,6 +1142,10 @@ static const char *strDNSSeed[][2] = {		//seednodes
 	{"54.88.218.165", "54.88.218.165"},
 };
 
+static const char *strDNSSeedTestNet[][2] = {		//seednodes
+  { "54.85.156.177", "54.85.156.177" },
+};
+
 void ThreadDNSAddressSeed(void* parg)
 {
     // Make this thread recognisable as the DNS seeding thread
@@ -1168,7 +1172,33 @@ void ThreadDNSAddressSeed2(void* parg)
     printf("ThreadDNSAddressSeed started\n");
     int found = 0;
 
-    if (!fTestNet)
+    if (fTestNet)
+    {
+      printf("Loading addresses from DNS seeds (could take a while)\n");
+
+      for (unsigned int seed_idx = 0; seed_idx < ARRAYLEN(strDNSSeedTestNet); seed_idx++) {
+        if (HaveNameProxy()) {
+          AddOneShot(strDNSSeedTestNet[seed_idx][1]);
+        }
+        else {
+          vector<CNetAddr> vaddr;
+          vector<CAddress> vAdd;
+          if (LookupHost(strDNSSeedTestNet[seed_idx][1], vaddr))
+          {
+            BOOST_FOREACH(CNetAddr& ip, vaddr)
+            {
+              int nOneDay = 24 * 3600;
+              CAddress addr = CAddress(CService(ip, GetDefaultPort()));
+              addr.nTime = GetTime() - 3 * nOneDay - GetRand(4 * nOneDay); // use a random age between 3 and 7 days old
+              vAdd.push_back(addr);
+              found++;
+            }
+          }
+          addrman.Add(vAdd, CNetAddr(strDNSSeedTestNet[seed_idx][0], true));
+        }
+      }
+    }
+    else
     {
         printf("Loading addresses from DNS seeds (could take a while)\n");
 

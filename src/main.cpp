@@ -2477,17 +2477,17 @@ bool LoadBlockIndex(bool fAllowNew)
 {
     CBigNum bnTrustedModulus;
 
-    if (fTestNet)
-    {
-        pchMessageStart[0] = 0x1;
-        pchMessageStart[1] = 0x2;
-        pchMessageStart[2] = 0x3;
-        pchMessageStart[3] = 0x4;
+    //if (fTestNet)
+    //{
+    //    pchMessageStart[0] = 0x99;
+    //    pchMessageStart[1] = 0x88;
+    //    pchMessageStart[2] = 0x77;
+    //    pchMessageStart[3] = 0xff;
 
-        bnProofOfWorkLimit = bnProofOfWorkLimitTestNet; // 0x0000ffff PoW base target is fixed in testnet
-        nStakeMinAge = 20 * 60; // test net min age is 20 min
-        nCoinbaseMaturity = 10; // test maturity is 10 blocks
-    }
+    //    bnProofOfWorkLimit = bnProofOfWorkLimitTestNet; // 0x0000ffff PoW base target is fixed in testnet
+    //    nStakeMinAge = 20 * 60; // test net min age is 20 min
+    //    nCoinbaseMaturity = 10; // test maturity is 10 blocks
+    //}
 #if 0
     // Set up the Zerocoin Params object
     ZCParams = new libzerocoin::Params(bnTrustedModulus);
@@ -2523,10 +2523,6 @@ bool LoadBlockIndex(bool fAllowNew)
         block.nTime    = 1409320652;
         block.nBits    = bnProofOfWorkLimit.GetCompact();
         block.nNonce   = 2410824;
-		    if(fTestNet)
-        {
-            block.nNonce   = 0;
-        }
         if (false  && (block.GetHash() != hashGenesisBlock)) {
 
         // This will figure out a valid hash and Nonce if you're
