@@ -65,11 +65,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="editMessage">
-     <property name="placeholderText">
-      <string>Ad body</string>
-     </property>
-    </widget>
+    <widget class="QPlainTextEdit" name="editMessage"/>
    </item>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout">

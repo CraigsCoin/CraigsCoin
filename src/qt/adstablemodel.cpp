@@ -17,7 +17,7 @@ static const int MAX_ADS = 1000;
 struct AdsModelRecord
 {
   uint256 hash;
-  int64_t time;
+  qint64 time;
   std::string title;
   std::string body;
 
