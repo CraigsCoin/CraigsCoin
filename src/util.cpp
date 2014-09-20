@@ -8,6 +8,8 @@
 #include "strlcpy.h"
 #include "version.h"
 #include "ui_interface.h"
+#include "allocators.h"
+#include "netbase.h"
 #include <cstdarg>
 #include <boost/algorithm/string/join.hpp>
 
@@ -1337,3 +1339,23 @@ bool NewThread(void(*pfn)(void*), void* parg)
     }
     return true;
 }
+
+int64_t GetPerformanceCounter()
+{
+  int64_t nCounter = 0;
+#ifdef WIN32
+  QueryPerformanceCounter((LARGE_INTEGER*)&nCounter);
+#else
+  timeval t;
+  gettimeofday(&t, NULL);
+  nCounter = (int64_t)t.tv_sec * 1000000 + t.tv_usec;
+#endif
+  return nCounter;
+}
+
+#ifdef WIN32
+void SetThreadPriority(int nPriority)
+{
+  ::SetThreadPriority(GetCurrentThread(), nPriority);
+}
+#endif

@@ -8,11 +8,16 @@ CONFIG += thread
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 lessThan(QT_MAJOR_VERSION, 5): CONFIG += static
 QMAKE_CXXFLAGS = -fpermissive
+QTPLUGIN += qsqlite
 
 greaterThan(QT_MAJOR_VERSION, 4) {
-    QT += widgets
+    QT += widgets sql
     DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0
 }
+
+contains(CONFIG, static) {
+  DEFINES += USING_STATIC_QT
+} 
 
 win32 {
   BOOST_LIB_SUFFIX=-mgw49-mt-s-1_55
@@ -136,7 +141,8 @@ SOURCES += src/txdb-leveldb.cpp \
     src/qt/adspage.cpp \
     src/qt/postad.cpp \
     src/qt/adstablemodel.cpp \
-    src/qt/showad.cpp
+    src/qt/showad.cpp \
+    src/ads.cpp
 !win32 {
     # we use QMAKE_CXXFLAGS_RELEASE even without RELEASE=1 because we use RELEASE to indicate linking preferences not -O preferences
     genleveldb.commands = cd $$PWD/src/leveldb && CC=$$QMAKE_CC CXX=$$QMAKE_CXX $(MAKE) OPT=\"$$QMAKE_CXXFLAGS $$QMAKE_CXXFLAGS_RELEASE\" libleveldb.a libmemenv.a
@@ -379,7 +385,8 @@ SOURCES += src/qt/bitcoin.cpp src/qt/bitcoingui.cpp \
     src/zerocoin/ZeroTest.cpp
 
 RESOURCES += \
-    src/qt/bitcoin.qrc
+    src/qt/bitcoin.qrc \
+    src/qt/db.qrc
 
 FORMS += \
     src/qt/forms/coincontroldialog.ui \

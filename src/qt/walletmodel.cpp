@@ -140,7 +140,7 @@ bool WalletModel::validateAddress(const QString &address)
 }
 
 WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipient> &recipients,
-            const QString& msg,
+            const std::string& msg,
             const CCoinControl *coinControl)
 {
     qint64 total = 0;
@@ -205,11 +205,7 @@ WalletModel::SendCoinsReturn WalletModel::sendCoins(const QList<SendCoinsRecipie
         CWalletTx wtx;
         CReserveKey keyChange(wallet);
         int64_t nFeeRequired = 0;
-        if (!msg.isEmpty())
-        {
-          const QByteArray ba(msg.toUtf8());
-          wtx.msg = std::string(ba.constBegin(), ba.constEnd());
-        }
+        wtx.msg = msg;
         bool fCreated = wallet->CreateTransaction(vecSend, wtx, keyChange, nFeeRequired, coinControl);
 
         if(!fCreated)

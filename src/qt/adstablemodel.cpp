@@ -4,35 +4,32 @@
 #include "addresstablemodel.h"
 #include "bitcoinunits.h"
 #include "guiutil.h"
-
 #include "wallet.h"
 
 #include <QList>
 
+#include <stdexcept>
 #include <boost/assert.hpp>
 
 /// Max displayed ads.
 static const int MAX_ADS = 1000;
 
-struct AdsModelRecord
+struct AdsModelRecord : public AdEntry
 {
   uint256 hash;
   qint64 time;
-  std::string title;
-  std::string body;
+  std::string rawmsg;
 
   void parseMsg(const std::string& msg)
   {
-    const std::string::size_type delim = msg.find('\n');
-    if (delim == std::string::npos)
+    rawmsg = msg;
+    try
     {
-      title = "<no title>";
-      body = msg;
+      parse(msg);
     }
-    else
+    catch (const std::exception& e)
     {
-      title = msg.substr(0, delim);
-      body = msg.substr(delim + 1);
+      ad.title = ad.title + "<parsing error>";
     }
   }
 
@@ -217,7 +214,7 @@ QAbstractTableModel(parent),
   walletModel(parent),
   priv(new AdsTableModelPrivate(this))
 {
-  columns << tr("Date") << tr("Title") << tr("Body");
+  columns << tr("Date") << tr("Title") << "AdEntry";
   priv->refreshWallet();
 }
 
@@ -247,9 +244,9 @@ QVariant AdsTableModel::data(const QModelIndex &index, int role) const
     case Date:
       return formatTxDate(rec);
     case Title:
-      return QString::fromUtf8(rec->title.data(), rec->title.size());
-    case Body:
-      return QString::fromUtf8(rec->body.data(), rec->body.size());
+      return QString::fromUtf8(rec->ad.title.data(), rec->ad.title.size());
+    case AdEntryIndex:
+      return QVariant::fromValue<AdEntry>(*static_cast<AdEntry*>(rec));
     }
     break;
   case Qt::EditRole:
@@ -259,9 +256,9 @@ QVariant AdsTableModel::data(const QModelIndex &index, int role) const
     case Date:
       return rec->time;
     case Title:
-      return QString::fromUtf8(rec->title.data(), rec->title.size());
-    case Body:
-      return QString::fromUtf8(rec->body.data(), rec->body.size());
+      return QString::fromUtf8(rec->ad.title.data(), rec->ad.title.size());
+    case AdEntryIndex:
+      return QVariant::fromValue<AdEntry>(*static_cast<AdEntry*>(rec));
     }
     break;
   }

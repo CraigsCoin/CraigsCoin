@@ -7,6 +7,7 @@
 #define BITCOIN_UTIL_H
 
 #include "uint256.h"
+#include "serialize.h"
 
 #ifndef WIN32
 #include <sys/types.h>
@@ -27,7 +28,7 @@
 #include <openssl/sha.h>
 #include <openssl/ripemd.h>
 
-#include "netbase.h" // for AddTimeData
+class CNetAddr;
 
 // to obtain PRId64 on some old systems
 #define __STDC_FORMAT_MACROS 1
@@ -333,18 +334,7 @@ inline void PrintHex(const std::vector<unsigned char>& vch, const char* pszForma
     printf(pszFormat, HexStr(vch, fSpaces).c_str());
 }
 
-inline int64_t GetPerformanceCounter()
-{
-    int64_t nCounter = 0;
-#ifdef WIN32
-    QueryPerformanceCounter((LARGE_INTEGER*)&nCounter);
-#else
-    timeval t;
-    gettimeofday(&t, NULL);
-    nCounter = (int64_t) t.tv_sec * 1000000 + t.tv_usec;
-#endif
-    return nCounter;
-}
+int64_t GetPerformanceCounter();
 
 inline int64_t GetTimeMillis()
 {
@@ -613,10 +603,7 @@ public:
 bool NewThread(void(*pfn)(void*), void* parg);
 
 #ifdef WIN32
-inline void SetThreadPriority(int nPriority)
-{
-    SetThreadPriority(GetCurrentThread(), nPriority);
-}
+void SetThreadPriority(int nPriority);
 #else
 
 #define THREAD_PRIORITY_LOWEST          PRIO_MAX

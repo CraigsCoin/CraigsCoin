@@ -10,6 +10,7 @@ class AdsPage;
 class WalletModel;
 class AdsTableModel;
 class AdsProxyModel;
+class AdsPagePrivate;
 
 class AdsPage : public QWidget
 {
@@ -22,13 +23,13 @@ public:
 public Q_SLOTS:  
   void showAd(const QModelIndex &index);
 private slots:
-  void on_actionShowAd_triggered();
   void on_actionPostAd_triggered();
   void on_listAds_clicked(const QModelIndex &index);
 private:
   Ui::AdsPage *ui;
   WalletModel* walletModel;
   AdsProxyModel* proxyModel;
+  AdsPagePrivate* _private;
 };
 
 #endif // ADSPAGE_H

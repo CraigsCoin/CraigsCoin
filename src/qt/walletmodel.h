@@ -89,7 +89,7 @@ public:
 
     // Send coins to a list of recipients
     SendCoinsReturn sendCoins(const QList<SendCoinsRecipient> &recipients,
-        const QString& msg,
+        const std::string& msg,
         const CCoinControl *coinControl=NULL);
 
     // Wallet encryption

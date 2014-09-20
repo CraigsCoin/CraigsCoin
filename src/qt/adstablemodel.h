@@ -5,6 +5,9 @@
 #include <QSortFilterProxyModel>
 #include <QStringList>
 
+#include "ads.h"
+Q_DECLARE_METATYPE(AdEntry);
+
 class CWallet;
 class AdsModelRecord;
 class WalletModel;
@@ -17,7 +20,7 @@ public:
   enum ColumnIndex {
       Date = 0,
       Title,
-      Body
+      AdEntryIndex
   };
 public:
   explicit AdsTableModel(CWallet* wallet, WalletModel *parent);

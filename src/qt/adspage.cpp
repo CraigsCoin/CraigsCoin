@@ -8,20 +8,80 @@
 #include "coincontroldialog.h"
 #include "adstablemodel.h"
 #include "showad.h"
-#include "main.h"
+#include "ads.h"
 
 #include <QMessageBox>
+
+#include <QSqlDatabase>
+#include <QtPlugin>
+#include <QStandardPaths>
+#include <QFileInfo>
+#include <QDir>
+#include <QResource>
+
+#include <boost/filesystem.hpp>
+#include <boost/assert.hpp>
+
+//#ifdef USING_STATIC_QT
+//Q_IMPORT_PLUGIN(qsqlite);
+//#endif
+
+static const QString DB_RES_NAME = ":/db/db";
+
+class AdsPagePrivate
+{
+public:
+  AdsPagePrivate()
+  {
+    const boost::filesystem::path fsPath = GetDataDir(false) / "db.sqlite3";
+    const QString dbFileName = QString::fromStdWString(fsPath.wstring());
+
+    db = QSqlDatabase::addDatabase("QSQLITE");
+    db.setDatabaseName(dbFileName);
+//    db.setConnectOptions("QSQLITE_OPEN_READONLY=1");
+    for (int i = 0; i < 2; ++i)
+    {
+      QFile f(dbFileName);
+      {
+        if (f.exists() && f.size() != QResource(DB_RES_NAME).size())
+        {
+          f.setPermissions(QFile::WriteUser);
+          f.remove();
+        }
+      }
+      if (!f.exists())
+      {
+        BOOST_VERIFY(QFile::copy(DB_RES_NAME, dbFileName));
+      }
+      if (db.open())
+      {
+        break;
+      }
+      else
+      {
+        f.setPermissions(QFile::WriteUser);
+        f.remove();
+      }
+    }
+  }
+public:
+  QSqlDatabase db;
+};
+
+
 
 AdsPage::AdsPage(QWidget *parent) :
 QWidget(parent),
   ui(new Ui::AdsPage),
-  walletModel(0)
+  walletModel(0),
+  _private(new AdsPagePrivate)
 {
   ui->setupUi(this);
 }
 
 AdsPage::~AdsPage()
 {
+  delete _private;
   delete ui;
 }
 
@@ -46,7 +106,8 @@ void AdsPage::setModel(WalletModel *amodel)
     ui->listAds->setSortingEnabled(true);
     ui->listAds->sortByColumn(AdsTableModel::Date, Qt::DescendingOrder);
     ui->listAds->verticalHeader()->hide();
-    ui->listAds->setColumnHidden(AdsTableModel::Body, true);
+
+    ui->listAds->setColumnHidden(AdsTableModel::AdEntryIndex, true);
 
     ui->listAds->horizontalHeader()->resizeSection(
           AdsTableModel::Date, 120);
@@ -55,20 +116,15 @@ void AdsPage::setModel(WalletModel *amodel)
 }
 
 
-void AdsPage::on_actionShowAd_triggered()
-{
-
-}
-
 void AdsPage::on_actionPostAd_triggered()
 {
-  PostAd dlg;
+  PostAd dlg(_private->db);
   const QDialog::DialogCode result = (QDialog::DialogCode)dlg.exec();
   if (result != QDialog::Accepted)
   {
     return;
   }
-  const QString msg = dlg.ui->editTitle->text() + "\n" + dlg.ui->editMessage->document()->toPlainText();
+  const std::string msg = dlg.resultMsg;
   QList<SendCoinsRecipient> recipients;
 
   if(!walletModel)

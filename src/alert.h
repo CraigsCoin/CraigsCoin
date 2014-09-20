@@ -12,6 +12,8 @@
 #include "uint256.h"
 #include "util.h"
 
+#include "serialize.h"
+
 class CNode;
 
 /** Alerts are for notifying old versions if they become too obsolete and
