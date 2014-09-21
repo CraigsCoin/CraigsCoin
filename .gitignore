@@ -34,4 +34,4 @@ qrc_*.cpp
 .DS_Store
 build
 
-!src/leveldb-*/Makefile
+!src/leveldb*/Makefile
