@@ -77,7 +77,8 @@ namespace json_spirit
 
             const wint_t unsigned_c( ( c >= 0 ) ? c : 256 + c );
 
-            if( iswprint( unsigned_c ) )
+            // craigscoin -- do not encode chars
+            if( true || iswprint( unsigned_c ) )
             {
                 result += c;
             }
