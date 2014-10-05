@@ -45,6 +45,12 @@
         <file alias="staking_off">res/icons/staking_off.png</file>
         <file alias="staking_on">res/icons/staking_on.png</file>
         <file alias="ads">res/icons/ads.png</file>
+        <file alias="header">res/icons/header.png</file>
+        <file alias="close">res/icons/close.png</file>
+        <file alias="maximize">res/icons/maximize.png</file>
+        <file alias="minimize">res/icons/minimize.png</file>
+        <file alias="restore">res/icons/restore.png</file>
+        <file alias="plus">res/icons/plus.png</file>
     </qresource>
     <qresource prefix="/images">
         <file alias="about">res/images/about.png</file>
@@ -94,5 +100,8 @@
         <file alias="uk">locale/bitcoin_uk.qm</file>
         <file alias="zh_CN">locale/bitcoin_zh_CN.qm</file>
         <file alias="zh_TW">locale/bitcoin_zh_TW.qm</file>
+    </qresource>
+    <qresource prefix="/styles">
+        <file alias="default">res/style.txt</file>
     </qresource>
 </RCC>

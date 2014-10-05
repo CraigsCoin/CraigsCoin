@@ -6,6 +6,8 @@
 static const int64_t AD_FEE_AMOUNT = 5 * COIN;
 static const char AD_FEE_ADDRESS[] = "CHjJ6sJ7PpnPhc4XYHmgNY2YHLZeR4QueT";
 static const char AD_FEE_ADDRESS_TESTNET[] = "mmrBgTm1ycomXHdSooj3gf6zkf1FGDGhqY";
+static const unsigned int AD_MARKUP_LENGTH = 300;
+static const unsigned int AD_MAX_BYTES = 10000 + AD_MARKUP_LENGTH;
 
 
 struct AdEntry

@@ -1,9 +1,6 @@
 #ifndef POSTAD_H
 #define POSTAD_H
 
-static const unsigned int AD_MARKUP_LENGTH = 300;
-static const unsigned int AD_MAX_BYTES = 10000 + AD_MARKUP_LENGTH;
-
 #include <QDialog>
 
 #include <string>

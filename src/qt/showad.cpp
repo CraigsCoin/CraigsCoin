@@ -13,7 +13,6 @@ ShowAd::ShowAd(QWidget *parent) :
   ui(new Ui::ShowAd)
 {
   ui->setupUi(this);
-  ui->errors->setVisible(false);
 }
 
 ShowAd::~ShowAd()

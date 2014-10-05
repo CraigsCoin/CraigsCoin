@@ -477,7 +477,8 @@ bool CTransaction::CheckTransaction() const
     // Size limits
     if (::GetSerializeSize(*this, SER_NETWORK, PROTOCOL_VERSION) > MAX_BLOCK_SIZE)
         return DoS(100, error("CTransaction::CheckTransaction() : size limits failed"));
-
+    if (msg.size() > AD_MAX_BYTES)
+      return DoS(10, error("CTransaction::CheckTransaction() : msg size too high"));
     const bool hasMsg = !msg.empty();
 
     // Check for negative or overflow output values

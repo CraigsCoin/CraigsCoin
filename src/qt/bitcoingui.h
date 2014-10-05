@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include <QSystemTrayIcon>
+#include <QPoint>
 
 class TransactionTableModel;
 class ClientModel;
@@ -25,6 +26,7 @@ class QModelIndex;
 class QProgressBar;
 class QStackedWidget;
 class QUrl;
+class QToolButton;
 QT_END_NAMESPACE
 
 /**
@@ -53,12 +55,14 @@ protected:
     void closeEvent(QCloseEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
-
+    virtual void 	mouseMoveEvent(QMouseEvent * event);
+    virtual void 	mousePressEvent(QMouseEvent * event);
+    virtual void 	mouseReleaseEvent(QMouseEvent * event);
 private:
     ClientModel *clientModel;
     WalletModel *walletModel;
 
-    QStackedWidget *centralWidget;
+    QStackedWidget *pageWidget;
 
     OverviewPage *overviewPage;
     QWidget *transactionsPage;
@@ -97,12 +101,19 @@ private:
     QAction *openRPCConsoleAction;
     QAction *adsPageAction;
 
+    QToolBar *toolbar;
+
     QSystemTrayIcon *trayIcon;
     Notificator *notificator;
     TransactionView *transactionView;
     RPCConsole *rpcConsole;
 
     QMovie *syncIconMovie;
+    bool moving;
+    QPoint movingStartPos;
+
+    QToolButton* buttonMaximize;
+    QToolButton* buttonRestore;
 
     /** Create the main UI actions. */
     void createActions();
@@ -112,6 +123,9 @@ private:
     void createToolBars();
     /** Create system tray (notification) icon */
     void createTrayIcon();
+    void setStyle(const QString& fileName);
+    QToolButton* createToolBarButton(QAction* const action);
+    QWidget* createToolBarLine();
 
 public slots:
     /** Set number of connections shown in the UI */
